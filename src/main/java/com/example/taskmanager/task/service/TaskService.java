@@ -1,5 +1,7 @@
 package com.example.taskmanager.task.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.taskmanager.task.dto.TaskRequest;
@@ -30,4 +32,8 @@ public class TaskService {
 
         return taskRepository.save(task);
     }
+
+    public Page<Task> getAllTasks(User owner, Pageable pageable) {
+    return taskRepository.findByOwner(owner, pageable);
+}
 }

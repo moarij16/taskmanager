@@ -16,4 +16,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // Filter a user's tasks down to one status (e.g. show only DONE tasks).
     List<Task> findByOwnerAndStatus(User owner, TaskStatus status);
+
 }

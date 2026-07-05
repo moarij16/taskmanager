@@ -1,5 +1,7 @@
 package com.example.taskmanager.task.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,8 @@ import com.example.taskmanager.user.model.User;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 // REST entry points for task management. Not listed in SecurityConfig's
 // PUBLIC_URLS, so every route here requires a valid access token — JwtAuthFilter
@@ -25,6 +29,14 @@ import lombok.RequiredArgsConstructor;
 public class TaskController {
 
     private final TaskService taskService;
+
+    @GetMapping
+    public ResponseEntity<Page<Task>> getAllTasks(
+            @AuthenticationPrincipal User owner,
+            Pageable pageable) {
+        return ResponseEntity.ok(taskService.getAllTasks(owner, pageable));
+    }
+
 
     // Example endpoint: creates a task scoped to whoever is authenticated.
     // Returns the Task entity directly for now (same pattern AuthController.getCurrentUser
